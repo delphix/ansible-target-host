@@ -1,0 +1,65 @@
+---
+#
+# Copyright (c) 2018 by Delphix. All rights reserved.
+#
+
+# Install OS-specific packages
+- include: setup-redhat.yml
+  when: ansible_os_family == 'RedHat'
+- include: setup-debian.yml
+  when: ansible_os_family == 'Debian'
+
+#
+# Configure the 'delphix' user and home directory
+#
+- name: Add Delphix group
+  group:
+    name: "{{ delphix_group }}"
+
+- name: Add Delphix user
+  user:
+    name: "{{ delphix_user }}"
+    home: "/home/{{ delphix_user }}"
+    group: "{{ delphix_group }}"
+    comment: "Delphix Automation"
+
+- name: Create delphix directories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ delphix_user }}"
+    group: "{{ delphix_group }}"
+    mode: "{{ item.mode }}"
+    state: directory
+  with_items:
+    - { path: "{{ delphix_toolkit }}", mode: "0770" }
+    - { path: "/home/{{ delphix_user }}/.ssh", mode: "0700" }
+    - { path: "{{ delphix_mount }}", mode: "0700" }
+
+- name: Create empty authorized keys
+  file:
+    path: "/home/{{ delphix_user }}/.ssh/authorized_keys"
+    owner: "{{ delphix_user }}"
+    group: "{{ delphix_group }}"
+    mode: 0600
+    state: touch
+
+- name: Set SSH key
+  copy:
+    content: "{{ delphix_ssh_key }}"
+    dest: "/home/{{ delphix_user }}/.ssh/authorized_keys"
+  when: delphix_ssh_key is not none
+
+#
+# This role will configure sudoers for use as a target on any platform. If more
+# fine-grained access is required, this could be placed behind a number of
+# variables to tune it for platforms. It could also be tightened up to only
+# allow commands with specific arguments.
+#
+- name: Configure delphix user for sudo
+  blockinfile:
+    dest: /etc/sudoers
+    state: present
+    block: |
+      Defaults:{{ delphix_user }} !requiretty
+      {{ delphix_user }} ALL=NOPASSWD: /bin/mount, /bin/umount, /bin/ps, /bin/mkdir, /bin/rmdir
+    validate: "visudo -cf %s"

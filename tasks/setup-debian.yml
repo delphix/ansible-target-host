@@ -1,0 +1,28 @@
+---
+#
+# Copyright (c) 2018 by Delphix. All rights reserved.
+#
+
+- name: Check if 32-bit runtime is installed
+  shell: dpkg --print-foreign-architectures | grep i386
+  register: result_32bit
+  changed_when: result_32bit.rc == 1
+  failed_when: result_32bit.rc > 1
+
+- name: Enable 32-bit runtime
+  command: dpkg --add-architecture i386
+  when: result_32bit.rc == 1
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+    update_cache: yes
+  with_items:
+    # Required for 32-bit java used by Delphix
+    - libc6:i386
+    - libstdc++6:i386
+    # Required for mounting NFS filesystems
+    - nfs-common
+    # Required for sudo access to mount/unmount NFS filesystems
+    - sudo
