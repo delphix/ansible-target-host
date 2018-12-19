@@ -13,10 +13,7 @@
   when: packages is not defined
 
 # Install OS-specific packages
-- include: setup-redhat.yml
-  when: ansible_os_family == 'RedHat'
-- include: setup-debian.yml
-  when: ansible_os_family == 'Debian'
+- include_tasks: setup-{{ ansible_os_family }}.yml
 
 #
 # Configure the 'delphix' user and home directory
