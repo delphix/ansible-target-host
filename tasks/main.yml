@@ -48,8 +48,10 @@
     dest: "{{ delphix_home }}/.ssh/authorized_keys"
     state: present
     block: |
-      {{ delphix_ssh_key }}
-  when: delphix_ssh_key is not none
+      {{ item.key }}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item | hash('md5') }}"
+  with_items: "{{ delphix_ssh_keys }}"
+  when: delphix_ssh_keys is not none
 
 #
 # This role will configure sudoers for use as a target on any platform. If more
