@@ -19,7 +19,7 @@
 - name: Add Delphix user
   user:
     name: "{{ delphix_user }}"
-    home: "/home/{{ delphix_user }}"
+    home: "{{ delphix_home }}"
     group: "{{ delphix_group }}"
     comment: "Delphix Automation"
 
@@ -32,12 +32,12 @@
     state: directory
   with_items:
     - { path: "{{ delphix_toolkit }}", mode: "0770" }
-    - { path: "/home/{{ delphix_user }}/.ssh", mode: "0700" }
+    - { path: "{{ delphix_home }}/.ssh", mode: "0700" }
     - { path: "{{ delphix_mount }}", mode: "0700" }
 
 - name: Create empty authorized keys
   file:
-    path: "/home/{{ delphix_user }}/.ssh/authorized_keys"
+    path: "{{ delphix_home }}/.ssh/authorized_keys"
     owner: "{{ delphix_user }}"
     group: "{{ delphix_group }}"
     mode: 0600
@@ -46,7 +46,7 @@
 - name: Set SSH key
   copy:
     content: "{{ delphix_ssh_key }}"
-    dest: "/home/{{ delphix_user }}/.ssh/authorized_keys"
+    dest: "{{ delphix_home }}/.ssh/authorized_keys"
   when: delphix_ssh_key is not none
 
 #

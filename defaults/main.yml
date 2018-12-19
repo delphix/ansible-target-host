@@ -4,6 +4,7 @@
 #
 delphix_user: delphix
 delphix_group: delphix
+delphix_home: "/home{{ delphix_user }}"
 delphix_mount: /mnt/delphix
 delphix_toolkit: /home/delphix/toolkit
 delphix_ssh_key:
