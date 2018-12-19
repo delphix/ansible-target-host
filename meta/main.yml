@@ -9,13 +9,18 @@ galaxy_info:
   license: Apache
   min_ansible_version: 2.0
   platforms:
-   - name: RedHat
-     versions:
-     - all
-   - name: Debian
-     versions:
-     - all
+    - name: EL
+      versions:
+      - all
+    - name: Debian
+      versions:
+      - all
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+        - bionic
   galaxy_tags:
-   - delphix
+    - delphix
 
 dependencies: []
