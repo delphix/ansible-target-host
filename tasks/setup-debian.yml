@@ -15,14 +15,15 @@
 
 - name: Install required packages
   apt:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: installed
     update_cache: yes
-  with_items:
-    # Required for 32-bit java used by Delphix
-    - libc6:i386
-    - libstdc++6:i386
-    # Required for mounting NFS filesystems
-    - nfs-common
-    # Required for sudo access to mount/unmount NFS filesystems
-    - sudo
+  vars:
+    packages:
+      # Required for 32-bit java used by Delphix
+      - libc6:i386
+      - libstdc++6:i386
+      # Required for mounting NFS filesystems
+      - nfs-common
+      # Required for sudo access to mount/unmount NFS filesystems
+      - sudo
