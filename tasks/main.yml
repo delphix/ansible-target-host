@@ -44,9 +44,11 @@
     state: touch
 
 - name: Set SSH key
-  copy:
-    content: "{{ delphix_ssh_key }}"
+  blockinfile:
     dest: "{{ delphix_home }}/.ssh/authorized_keys"
+    state: present
+    block: |
+      {{ delphix_ssh_key }}
   when: delphix_ssh_key is not none
 
 #
