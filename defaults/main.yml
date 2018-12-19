@@ -2,6 +2,7 @@
 #
 # Copyright (c) 2018 by Delphix. All rights reserved.
 #
+
 ###The user for the Delphix DDP to login to the system
 delphix_user: delphix
 ### The group to which delphix_user should belong
