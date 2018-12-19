@@ -8,3 +8,10 @@ delphix_home: "/home{{ delphix_user }}"
 delphix_mount: /mnt/delphix
 delphix_toolkit: /home/delphix/toolkit
 delphix_ssh_key:
+# Allowed sudo commands for the delphix_user
+allowed_sudo_commands: 
+  - /bin/mount
+  - /bin/umount
+  - /bin/ps
+  - /bin/mkdir
+  - /bin/rmdir

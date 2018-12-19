@@ -63,5 +63,5 @@
     state: present
     block: |
       Defaults:{{ delphix_user }} !requiretty
-      {{ delphix_user }} ALL=NOPASSWD: /bin/mount, /bin/umount, /bin/ps, /bin/mkdir, /bin/rmdir
+      {{ delphix_user }} ALL=NOPASSWD: {{ allowed_sudo_commands | join(', ')  }}
     validate: "visudo -cf %s"
