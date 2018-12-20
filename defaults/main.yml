@@ -5,6 +5,8 @@
 
 ###The user for the Delphix DDP to login to the system
 delphix_user: delphix
+###Comment for the user
+user_comment: "Delphix Automation"
 ### The group to which delphix_user should belong
 delphix_group: delphix
 ### The home of the delphix_user

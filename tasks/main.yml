@@ -27,7 +27,7 @@
     name: "{{ delphix_user }}"
     home: "{{ delphix_home }}"
     group: "{{ delphix_group }}"
-    comment: "Delphix Automation"
+    comment: "{{ user_comment }}"
 
 - name: Create delphix directories
   file:

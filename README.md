@@ -26,6 +26,9 @@ Available variables are listed below, along with default values (see defaults/ma
     delphix_user: delphix
 The user for the Delphix DDP to login to the system
 
+    user_comment: "Delphix Automation"
+Comment for the user
+
     delphix_group: delphix
 The group to which delphix_user should belong
 
