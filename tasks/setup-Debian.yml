@@ -17,5 +17,5 @@
 - name: Install required packages
   apt:
     name: "{{ packages }}"
-    state: installed
+    state: present
     update_cache: true
