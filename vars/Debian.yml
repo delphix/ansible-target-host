@@ -2,6 +2,7 @@
 # Copyright (c) 2018 by Delphix. All rights reserved.
 #
 
+---
 __packages:
   # Required for 32-bit java used by Delphix
   - libc6:i386

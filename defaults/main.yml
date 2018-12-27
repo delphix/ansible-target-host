@@ -28,3 +28,4 @@ allowed_sudo_commands:
   - /bin/ps
   - /bin/mkdir
   - /bin/rmdir
+  
