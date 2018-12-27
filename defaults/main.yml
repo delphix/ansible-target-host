@@ -3,9 +3,9 @@
 # Copyright (c) 2018 by Delphix. All rights reserved.
 #
 
-###The user for the Delphix DDP to login to the system
+### The user for the Delphix DDP to login to the system
 delphix_user: delphix
-###Comment for the user
+### Comment for the user
 user_comment: "Delphix Automation"
 ### The group to which delphix_user should belong
 delphix_group: delphix
@@ -16,10 +16,10 @@ delphix_mount: /mnt/delphix
 ### The directory where the Delphix DDP will store the toolkit files
 delphix_toolkit: /home/delphix/toolkit
 ### Optional: The SSH key of the Delphix DDP
-#ex.
-#delphix_ssh_keys:
-#  - name: DE1
-#    key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYCptAFSoJwnHVgCX5xC2c5W9unRbFen5PvUasQ8tnlouNRte5hnKe10bgkMFN4LSUbXggXk1C+9eMMKvpKxifFFLVTNCtKGyBsrUpmKLWAoQU5ycpXFfGmgtASJn+VZh5VYbCKTcvVsadR8UA7PyOU6V5gayELKZBczw7gvpaGyM4cF4/1VqK7UzbnEXe0Rt3xozYMC+xyRSk+RZTh+grHYHb1Q/0cSsQmaw1sTlIFl8BAjXNMEmPoCISfSpO4F3yWmJUIEPtkWHWiKOUzgoi20vnvZnLHd54NAE8F+aJn4eNarAn0x2XWUdmgLuAM/7KzF5kn0+k9Pm3iJ1jE14J root@ip-10-0-1-10"
+# ex.
+#  delphix_ssh_keys:
+#   - name: DE1
+#     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYCptAFSoJwnHVgCX5xC2c5W9unRbFen5PvUasQ8tnlouNRte5hnKe10bgkMFN4LSUbXggXk1C+9eMMKvpKxifFFLVTNCtKGyBsrUpmKLWAoQU5ycpXFfGmgtASJn+VZh5VYbCKTcvVsadR8UA7PyOU6V5gayELKZBczw7gvpaGyM4cF4/1VqK7UzbnEXe0Rt3xozYMC+xyRSk+RZTh+grHYHb1Q/0cSsQmaw1sTlIFl8BAjXNMEmPoCISfSpO4F3yWmJUIEPtkWHWiKOUzgoi20vnvZnLHd54NAE8F+aJn4eNarAn0x2XWUdmgLuAM/7KzF5kn0+k9Pm3iJ1jE14J root@ip-10-0-1-10"
 delphix_ssh_keys: {}
 # Allowed sudo commands for the delphix_user
 allowed_sudo_commands: 

@@ -18,4 +18,4 @@
   apt:
     name: "{{ packages }}"
     state: installed
-    update_cache: yes
+    update_cache: true
