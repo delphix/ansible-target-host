@@ -23,8 +23,6 @@ before_script:
   - cd ../
   - mv ansible-$ROLE_NAME delphix.$ROLE_NAME
   - cd delphix.$ROLE_NAME
-  - ls -lart tasks
-  - cat tasks/tasks-Redhat.yml
 
 script:
   # Run tests.
