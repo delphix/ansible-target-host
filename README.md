@@ -1,5 +1,6 @@
 Delphix Target Host
 ===================
+[![Build Status](https://travis-ci.com/delphix/ansible-target-host.svg?branch=master)](https://travis-ci.com/delphix/ansible-target-host)
 
 This role will configure a Linux system for use as a target host in the Delphix
 platform. This includes installing all required packages, and creating a
