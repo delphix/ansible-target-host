@@ -1,0 +1,9 @@
+#
+# Copyright (c) 2018 by Delphix. All rights reserved.
+#
+
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: delphix.target-host
