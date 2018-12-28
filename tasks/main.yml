@@ -41,13 +41,18 @@
     - { path: "{{ delphix_home }}/.ssh", mode: "0700" }
     - { path: "{{ delphix_mount }}", mode: "0700" }
 
+- name: Check to see if "{{ delphix_home }}/.ssh/authorized_keys" exists
+  stat:
+    path: "{{ delphix_home }}/.ssh/authorized_keys"
+  register: ak
+
 - name: Create empty authorized keys
   file:
     path: "{{ delphix_home }}/.ssh/authorized_keys"
     owner: "{{ delphix_user }}"
     group: "{{ delphix_group }}"
     mode: 0600
-    state: touch
+    state: "{{ 'file' if ak.stat.exists else 'touch' }}"
 
 - name: Set SSH key
   blockinfile:
