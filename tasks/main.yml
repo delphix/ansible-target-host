@@ -13,7 +13,7 @@
   when: packages is not defined
 
 # Install OS-specific packages
-- include_tasks: setup-{{ ansible_os_family }}.yml
+- include_tasks: tasks-{{ ansible_os_family }}.yml
 
 #
 # Configure the 'delphix' user and home directory
