@@ -4,7 +4,8 @@ services: docker
 
 env:
   global:
-    - ROLE_NAME: target-host
+    - ROLE_NAME="target-host"
+    - TRAVIS_REPO_SLUG="CloudSurgeon/ansible-target-host"
   matrix:
     # Test defaults.
     - MOLECULE_DISTRO: centos6
