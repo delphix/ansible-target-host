@@ -16,8 +16,13 @@ runtime, you can use cloud init (as described for AWS
 append one or more SSH keys to the `authorized_keys` file on first boot. To get
 the public SSH key of an engine, use the `system get sshPublicKey` CLI command.
 
-This role has been manually tested against latest Ubuntu and CentOS AMIs, but
-there is no reason it should not work with any RedHat or Debian variant.
+This role is automatically tested on a weekly basis for the following OS:
+* CentOS6
+* CentOS7
+* Ubuntu 18.04
+* Ubuntu 16.04
+* Debian 9
+* Debian 8
 
 Role Variables
 --------------
