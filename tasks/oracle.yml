@@ -5,4 +5,3 @@
 
 - include_tasks: ohome-group-write.yml
   when: delphix_user != 'oracle'
-

@@ -42,7 +42,8 @@ This role is automatically tested on a weekly basis for the following OS:
 
 ## <a id="variables"></a>Role Variables
 
-Available variables are listed below, along with default values (see defaults/main.yml):
+Available variables are listed below, along with default values (see defaults/main.yml).
+There is also a sample group_vars directory with common settings for specific target types, like oracletargets.
 
     delphix_user: delphix
 The user for the Delphix DDP to login to the system
@@ -84,6 +85,9 @@ Allowed sudo commands for the delphix_user
       - [platform-specific]
 The list of packages to be installed. This defaults to a set of platform-specific packages for RedHat or Debian-based
 systems (see `vars/RedHat.yml` and `vars/Debian.yml` for the default values).
+
+    install_oracle: false
+Set to "true" to perform additional tasks which allow the Delphix Target to provision Oracle VDBs
 
 ## <a id="dependencies"></a>Dependencies
 

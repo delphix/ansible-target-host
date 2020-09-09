@@ -81,4 +81,4 @@
 
 
 - include_tasks: "oracle.yml"
-  when: install_oracle 
+  when: install_oracle
