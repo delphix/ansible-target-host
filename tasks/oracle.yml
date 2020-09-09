@@ -1,0 +1,8 @@
+# These tasks are only executed for Oracle Targets
+
+# Set Group Write Permissions on ORACLE_HOME/dbs for all installed ORACLE_HOMEs
+# Executed only if delphix_user is not equal to "oracle" to avoid unneeded privs
+
+- include_tasks: ohome-group-write.yml
+  when: delphix_user != 'oracle'
+

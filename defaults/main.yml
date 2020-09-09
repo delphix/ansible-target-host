@@ -28,3 +28,5 @@ allowed_sudo_commands:
   - /bin/ps
   - /bin/mkdir
   - /bin/rmdir
+# Set install_oracle = true if this is an Oracle Target
+install_oracle: false

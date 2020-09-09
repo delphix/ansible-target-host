@@ -78,3 +78,7 @@
       Defaults:{{ delphix_user }} !requiretty
       {{ delphix_user }} ALL=NOPASSWD: {{ allowed_sudo_commands | join(', ')  }}
     validate: "visudo -cf %s"
+
+
+- include_tasks: "oracle.yml"
+  when: install_oracle 
