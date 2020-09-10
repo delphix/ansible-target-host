@@ -1,0 +1,33 @@
+---
+# Set Group Write Permissions on ORACLE_HOME/dbs for all installed ORACLE_HOMEs
+# Executed only if delphix_user is not equal to "oracle"
+
+- name: Find inventory
+  shell: cat /etc/oraInst.loc | grep inventory_loc | awk -F"=" '{print $2}'
+  register: oraInst
+
+- debug:
+    msg: "{{ oraInst.stdout }}"
+    verbosity: 2
+
+- name: Parse inventory
+  shell: cat "{{ oraInst.stdout }}/ContentsXML/inventory.xml" |grep "HOME NAME" | grep -vi "CRS=" | grep -vi "REMOVED=" | awk '{print $3}' | awk -F"=" '{print $2}'  | tr -d '"'
+  register: existing_dbhome
+
+- debug:
+    msg: "Found ORACLE_HOME - {{ item }}"
+    verbosity: 2
+  with_items: "{{ existing_dbhome.stdout_lines }}"
+
+- name: Check owner of oracle executable
+  stat:
+    path: "{{ item }}/bin/oracle"
+  loop: "{{ existing_dbhome.stdout_lines }}"
+  register: existing_dbhome_with_owner
+
+- name: Setting Group Permission on ORACLE_HOME/dbs
+  file:
+    path: "{{ item.item }}/dbs"
+    mode: g+w
+  loop: "{{ existing_dbhome_with_owner.results }}"
+  when: item.stat.pw_name != delphix_user
