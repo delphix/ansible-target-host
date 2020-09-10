@@ -3,6 +3,14 @@
 # Copyright (c) 2019 by Delphix. All rights reserved.
 #
 
+#
+# Supported OS and Min Versions.  
+# Delphix only supports Suse and RedHat
+# This project does not support RHEL versions less than 6.3
+
+os_family_supported: "{% if ansible_os_family == 'Suse' %}Suse{% else %}RedHat{% endif %}"
+os_min_supported_version: "{% if ansible_os_family == 'Suse' %}11{% else %}6.3{% endif %}"
+
 ### The user for the Delphix DDP to login to the system
 delphix_user: delphix
 ### Comment for the user
