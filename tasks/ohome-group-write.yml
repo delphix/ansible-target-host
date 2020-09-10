@@ -11,7 +11,7 @@
     verbosity: 2
 
 - name: Parse inventory
-  shell: cat "{{ oraInst.stdout }}/ContentsXML/inventory.xml" |grep "HOME NAME" | awk '{print $3}' | awk -F"=" '{print $2}'  | tr -d '"'
+  shell: cat "{{ oraInst.stdout }}/ContentsXML/inventory.xml" |grep "HOME NAME" | grep -vi "CRS=" | grep -vi "REMOVED=" | awk '{print $3}' | awk -F"=" '{print $2}'  | tr -d '"'
   register: existing_dbhome
 
 - debug:
@@ -19,8 +19,15 @@
     verbosity: 2
   with_items: "{{ existing_dbhome.stdout_lines }}"
 
+- name: Check owner of oracle executable
+  stat:
+    path: "{{ item }}/bin/oracle"
+  loop: "{{ existing_dbhome.stdout_lines }}"
+  register: existing_dbhome_with_owner
+  
 - name: Setting Group Permission on ORACLE_HOME/dbs
   file:
-    path: "{{ item }}/dbs"
+    path: "{{ item.item }}/dbs"
     mode: g+w
-  with_items: "{{ existing_dbhome.stdout_lines }}"
+  loop: "{{ existing_dbhome_with_owner.results }}"
+  when: item.stat.pw_name != delphix_user
