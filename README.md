@@ -35,10 +35,6 @@ the public SSH key of an engine, use the `system get sshPublicKey` CLI command.
 This role is automatically tested on a weekly basis for the following OS:
 * CentOS6
 * CentOS7
-* Ubuntu 18.04
-* Ubuntu 16.04
-* Debian 9
-* Debian 8
 
 ## <a id="variables"></a>Role Variables
 
