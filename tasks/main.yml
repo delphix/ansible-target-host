@@ -96,31 +96,36 @@
 # net.ipv4.tcp_wmem = 4096 4194304 16777216
 #
 
-- sysctl:
+- name: Set net.ipv4.tcp_timestamps
+  sysctl:
     name: net.ipv4.tcp_timestamps
     value: '1'
     state: present
     reload: true
-
-- sysctl:
+  
+- name: Set net.ipv4.tcp_sack
+  sysctl:
     name: net.ipv4.tcp_sack
     value: '1'
     state: present
     reload: true
 
-- sysctl:
+- name: Set net.ipv4.tcp_window_scaling
+  sysctl:
     name: net.ipv4.tcp_window_scaling
     value: '1'
     state: present
     reload: true
 
-- sysctl:
+- name: Set net.ipv4.tcp_rmem
+  sysctl:
     name: net.ipv4.tcp_rmem
     value: '4096 16777216 16777216'
     state: present
     reload: true
 
-- sysctl:
+- name: Set net.ipv4.tcp_wmem
+  sysctl:
     name: net.ipv4.tcp_wmem
     value: '4096 4194304 16777216'
     state: present
