@@ -24,7 +24,7 @@
     path: "{{ item }}/bin/oracle"
   loop: "{{ existing_dbhome.stdout_lines }}"
   register: existing_dbhome_with_owner
-  
+
 - name: Setting Group Permission on ORACLE_HOME/dbs
   file:
     path: "{{ item.item }}/dbs"
