@@ -15,8 +15,10 @@ os_min_supported_version: "{% if ansible_os_family == 'Suse' %}11{% else %}6.3{%
 delphix_user: delphix
 ### Comment for the user
 user_comment: "Delphix Automation"
-### The group to which delphix_user should belong
-delphix_group: delphix
+### The primary group to which delphix_user should belong
+delphix_primary_group: delphix
+### The secondary groups to which delphix_user should belong
+delphix_secondary_groups: []
 ### The home of the delphix_user
 delphix_home: "/home/{{ delphix_user }}"
 ### The directory where the Delphix DDP should mount the VDBs

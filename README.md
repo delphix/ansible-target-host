@@ -47,8 +47,11 @@ The user for the Delphix DDP to login to the system
     user_comment: "Delphix Automation"
 Comment for the user
 
-    delphix_group: delphix
-The group to which delphix_user should belong
+    delphix_primary_group: delphix
+The primary group to which delphix_user should belong
+
+    delphix_secondary_group: []
+List of secondary groups to which delphix_user should belong
 
     delphix_home: "/home/{{ delphix_user }}"
 The home of the delphix_user
