@@ -24,8 +24,12 @@ platform. This includes installing all required packages, and creating a
 most notably managing NFS mounts.  The resulting host can be used with a
 standard username, directories, and SSH key access.
 
-The role provides a mechanism for configuring the `delphix` user with a single
-engine public SSH key in `/home/delphix/.ssh/authorized_keys`. In the event
+If the variable `install_oracle` to `true` this role will perform Oracle specific
+setup tasks:  setting `delphix` user to have the same groups as Oracle and
+performing `g+w` on the Oracle Homes. 
+
+The role provides a mechanism for configuring the `delphix` user with multiple 
+public SSH keys in `/home/delphix/.ssh/authorized_keys`. In the event
 that you are building a cloud image and want to configure the SSH key at
 runtime, you can use cloud init (as described for AWS
 [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)) to
@@ -40,6 +44,10 @@ This role is automatically tested on a weekly basis for the following OS:
 
 Available variables are listed below, along with default values (see defaults/main.yml).
 There is also a sample group_vars directory with common settings for specific target types, like oracletargets.
+Note that setting `delphix_primary_group` and/or `delphix_secondary_groups` at either the playbook or 
+command line (with `-e`) will override the action of dynamically determining these from the Oracle 
+Home owner (typically `oracle`).  Typically it would not make sense to set these at such a high level
+if you also set `install_oracle=true`.
 
     delphix_user: delphix
 The user for the Delphix DDP to login to the system
@@ -63,7 +71,7 @@ The directory where the Delphix DDP should mount the VDBs
 The directory where the Delphix DDP will store the toolkit files
 
     delphix_ssh_keys: {}
-Optional: The SSH key of the Delphix DDP
+Optional: The SSH key(s) of the Delphix DDP
 
 Here's an example using delphix_ssh_keys to add a Delphix DDP public key to a host:
 
