@@ -1,0 +1,81 @@
+---
+# Determine oraInst.loc, Existing DB Homes, DB Home owner (typically "oracle" user), and DB Home owner groups
+
+- name: Read and Parse oraInst.loc
+  shell: cat /etc/oraInst.loc | grep inventory_loc | awk -F"=" '{print $2}'
+  register: oraInst
+
+- debug:
+    msg: "oraInst.stdout: {{ oraInst.stdout }}"
+    verbosity: 2
+
+- name: Read and Parse inventory.xml
+  shell: cat "{{ oraInst.stdout }}/ContentsXML/inventory.xml" |grep "HOME NAME" | grep -vi "CRS=" | grep -vi "REMOVED=" | awk '{print $3}' | awk -F"=" '{print $2}'  | tr -d '"'
+  register: existing_dbhome
+
+- debug:
+    msg: "existing_dbhome.stdout_lines.item: {{ item }}"
+    verbosity: 2
+  with_items: "{{ existing_dbhome.stdout_lines }}"
+
+- name: Get owner(s) of oracle executable
+  stat:
+    path: "{{ item }}/bin/oracle"
+  loop: "{{ existing_dbhome.stdout_lines }}"
+  register: existing_dbhome_with_owner
+
+- debug:
+    msg:
+      - "existing_dbhome_with_owner.results.0.stat.pw_name: {{ existing_dbhome_with_owner.results.0.stat.pw_name }}"
+      - "list of pw_name: {{ existing_dbhome_with_owner.results | map(attribute='stat') | map(attribute='pw_name') | list | join(', ') }}"
+    verbosity: 2
+
+- name: Check that there is only one oracle user on this machine
+  assert:
+    that:
+      - "{{ existing_dbhome_with_owner.results | map(attribute='stat') | map(attribute='pw_name') | unique | count }} == 1"
+    fail_msg: "This script only works with 1 oracle user per machine, owning 1 or more Oracle Homes"
+
+- name: Set Variable oracle_owner
+  set_fact:
+   oracle_owner: "{{ existing_dbhome_with_owner.results | map(attribute='stat') | map(attribute='pw_name') | unique | join(', ')  }}"
+
+- name: Get(ent) password file entry for oracle_owner
+  getent:
+    database: passwd
+    key: "{{ oracle_owner }}"
+
+- debug:
+    msg: "getent_passwd: {{ getent_passwd }}"
+    verbosity: 2
+
+- name: Get(ent) groups
+  getent:
+    database: group
+    split: ':'
+
+- debug:
+    msg: "getent_group: {{ getent_group }}"
+    verbosity: 2
+
+- name: Set fact delphix_primary_gid
+  set_fact:
+    delphix_primary_gid: "{{ getent_passwd[oracle_owner][2] }}"
+
+#Note that if this is set at the playbook or command line (-e) level, it will take priority!
+- name: Set fact delphix_primary_group
+  set_fact:
+    delphix_primary_group: "{{ (getent_group | dict2items | selectattr('value.1','search',delphix_primary_gid) | list | first).key  }}"
+
+- debug:
+    msg: "delphix_primary_group: {{ delphix_primary_group }}"
+    verbosity: 2
+
+- name: Set fact delphix_secondary_groups
+  set_fact:
+     delphix_secondary_groups: "{{ getent_group | dict2items | selectattr('value.2','search','oracle') | map(attribute='key') |  reject('==',delphix_primary_group) | list }}"
+
+- debug:
+    msg: "delphix_secondary_groups: {{ delphix_secondary_groups }}"
+    verbosity: 2
+

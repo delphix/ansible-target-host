@@ -19,6 +19,21 @@
     packages: "{{ __packages | list }}"
   when: packages is not defined
 
+- name: Set Oracle Variables
+  include_tasks: oracle_vars.yml
+  when: install_oracle
+
+- name: Check for Oracle Installation in place
+  assert:
+    that:
+      - oraInst is defined
+      - existing_dbhome is defined
+  when: install_oracle
+
+#- name: Set delphix group if this is an Oracle Install
+#  set_fact:
+#    delphix_primary_group: {{ existing_dbhome_owner_getent.results.item[0].stat.
+
 # Setup/install tasks.
 - include_tasks: setup-{{ ansible_os_family }}.yml
 
@@ -141,5 +156,5 @@
 # Include Oracle specific tasks if install_oracle=true
 #
 
-- include_tasks: "oracle.yml"
+- include_tasks: "ohome-group-write.yml"
   when: install_oracle
