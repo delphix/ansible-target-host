@@ -38,7 +38,7 @@
 
 - name: Set Variable oracle_owner
   set_fact:
-   oracle_owner: "{{ existing_dbhome_with_owner.results | map(attribute='stat') | map(attribute='pw_name') | unique | join(', ')  }}"
+    oracle_owner: "{{ existing_dbhome_with_owner.results | map(attribute='stat') | map(attribute='pw_name') | unique | join(', ')  }}"
 
 - name: Get(ent) password file entry for oracle_owner
   getent:
@@ -62,7 +62,7 @@
   set_fact:
     delphix_primary_gid: "{{ getent_passwd[oracle_owner][2] }}"
 
-#Note that if this is set at the playbook or command line (-e) level, it will take priority!
+# Note that if this is set at the playbook or command line (-e) level, it will take priority!
 - name: Set fact delphix_primary_group
   set_fact:
     delphix_primary_group: "{{ (getent_group | dict2items | selectattr('value.1','search',delphix_primary_gid) | list | first).key  }}"
@@ -73,9 +73,8 @@
 
 - name: Set fact delphix_secondary_groups
   set_fact:
-     delphix_secondary_groups: "{{ getent_group | dict2items | selectattr('value.2','search','oracle') | map(attribute='key') |  reject('==',delphix_primary_group) | list }}"
+    delphix_secondary_groups: "{{ getent_group | dict2items | selectattr('value.2','search','oracle') | map(attribute='key') |  reject('==',delphix_primary_group) | list }}"
 
 - debug:
     msg: "delphix_secondary_groups: {{ delphix_secondary_groups }}"
     verbosity: 2
-

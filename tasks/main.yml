@@ -30,10 +30,6 @@
       - existing_dbhome is defined
   when: install_oracle
 
-#- name: Set delphix group if this is an Oracle Install
-#  set_fact:
-#    delphix_primary_group: {{ existing_dbhome_owner_getent.results.item[0].stat.
-
 # Setup/install tasks.
 - include_tasks: setup-{{ ansible_os_family }}.yml
 
