@@ -2,16 +2,32 @@
 # Determine oraInst.loc, Existing DB Homes, DB Home owner (typically "oracle" user), and DB Home owner groups
 
 - name: Read and Parse oraInst.loc
-  shell: cat /etc/oraInst.loc | grep inventory_loc | awk -F"=" '{print $2}'
+  shell: |
+    set -o pipefail
+    cat /etc/oraInst.loc | grep inventory_loc | awk -F"=" '{print $2}'
   register: oraInst
+  args:
+    executable: /bin/bash
+  changed_when: false
 
 - debug:
     msg: "oraInst.stdout: {{ oraInst.stdout }}"
     verbosity: 2
 
 - name: Read and Parse inventory.xml
-  shell: cat "{{ oraInst.stdout }}/ContentsXML/inventory.xml" |grep "HOME NAME" | grep -vi "CRS=" | grep -vi "REMOVED=" | awk '{print $3}' | awk -F"=" '{print $2}'  | tr -d '"'
+  shell: >-
+    set -o pipefail &&
+    cat "{{ oraInst.stdout }}/ContentsXML/inventory.xml" |
+    grep "HOME NAME" |
+    grep -vi "CRS=" |
+    grep -vi "REMOVED=" |
+    awk '{print $3}' |
+    awk -F"=" '{print $2}'  |
+    tr -d '"'
   register: existing_dbhome
+  args:
+    executable: /bin/bash
+  changed_when: false
 
 - debug:
     msg: "existing_dbhome.stdout_lines.item: {{ item }}"
@@ -73,8 +89,13 @@
 
 - name: Set fact delphix_secondary_groups
   set_fact:
-    delphix_secondary_groups: "{{ getent_group | dict2items | selectattr('value.2','search','oracle') | map(attribute='key') |  reject('==',delphix_primary_group) | list }}"
-
+    delphix_secondary_groups: >-
+      {{ getent_group | dict2items | selectattr('value.2','search','oracle') |
+      map(attribute='key') |  reject('==',delphix_primary_group) | list }}
 - debug:
     msg: "delphix_secondary_groups: {{ delphix_secondary_groups }}"
     verbosity: 2
+
+# - name: Break Point
+#   assert:
+#     that: 1==2
