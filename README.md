@@ -18,15 +18,15 @@ Delphix Target Host
 
 ## <a id="overview"></a>Overview
 
-This role will configure a Linux system for use as a target host in the Delphix
-platform. This includes installing all required packages, and creating a
-`delphix` user with sufficient sudo privileges support all platform operations,
+This role will configure a Linux system for use as a target host for the Delphix
+platform. This includes installing all required packages and creating a
+`delphix` user with sufficient sudo privileges to support all platform operations,
 most notably managing NFS mounts.  The resulting host can be used with a
 standard username, directories, and SSH key access.
 
-If the variable `install_oracle` to `true` this role will perform Oracle specific
-setup tasks:  setting `delphix` user to have the same groups as Oracle and
-performing `g+w` on the Oracle Homes. 
+If the variable `install_oracle` is set to `true`, this role will also perform 
+Oracle specific setup tasks:  setting `delphix` user to have the same groups as 
+Oracle user and performing `g+w` on the Oracle Home `dbs` directory. 
 
 The role provides a mechanism for configuring the `delphix` user with multiple 
 public SSH keys in `/home/delphix/.ssh/authorized_keys`. In the event
@@ -46,7 +46,7 @@ Available variables are listed below, along with default values (see defaults/ma
 There is also a sample group_vars directory with common settings for specific target types, like oracletargets.
 Note that setting `delphix_primary_group` and/or `delphix_secondary_groups` at either the playbook or 
 command line (with `-e`) will override the action of dynamically determining these from the Oracle 
-Home owner (typically `oracle`).  Typically it would not make sense to set these at such a high level
+Home owner (typically `oracle`).  Usually it would not make sense to set these at such a high level
 if you also set `install_oracle=true`.
 
     delphix_user: delphix
