@@ -1,6 +1,0 @@
----
-# These tasks are only executed for Oracle Targets
-
-# Set Group Write Permissions on ORACLE_HOME/dbs for all installed ORACLE_HOMEs
-
-- include_tasks: ohome-group-write.yml

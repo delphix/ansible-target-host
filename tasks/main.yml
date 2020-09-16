@@ -19,28 +19,45 @@
     packages: "{{ __packages | list }}"
   when: packages is not defined
 
+- name: Set Oracle Variables
+  include_tasks: oracle_vars.yml
+  when: install_oracle
+
+- name: Check for Oracle Installation in place
+  assert:
+    that:
+      - oraInst is defined
+      - existing_dbhome is defined
+  when: install_oracle
+
 # Setup/install tasks.
 - include_tasks: setup-{{ ansible_os_family }}.yml
 
 #
 # Configure the 'delphix' user and home directory
 #
-- name: Add Delphix group
+- name: Add Delphix primary group
   group:
-    name: "{{ delphix_group }}"
+    name: "{{ delphix_primary_group }}"
+
+- name: Add Delphix secondary groups
+  group:
+    name: "{{ item }}"
+  loop: "{{ delphix_secondary_groups }}"
 
 - name: Add Delphix user
   user:
     name: "{{ delphix_user }}"
     home: "{{ delphix_home }}"
-    group: "{{ delphix_group }}"
+    group: "{{ delphix_primary_group }}"
+    groups: "{{ delphix_secondary_groups }}"
     comment: "{{ user_comment }}"
 
 - name: Create delphix directories
   file:
     path: "{{ item.path }}"
     owner: "{{ delphix_user }}"
-    group: "{{ delphix_group }}"
+    group: "{{ delphix_primary_group }}"
     mode: "{{ item.mode }}"
     state: directory
   with_items:
@@ -57,7 +74,7 @@
   file:
     path: "{{ delphix_home }}/.ssh/authorized_keys"
     owner: "{{ delphix_user }}"
-    group: "{{ delphix_group }}"
+    group: "{{ delphix_primary_group }}"
     mode: 0600
     state: "{{ 'file' if ak.stat.exists else 'touch' }}"
 
@@ -135,5 +152,5 @@
 # Include Oracle specific tasks if install_oracle=true
 #
 
-- include_tasks: "oracle.yml"
+- include_tasks: "ohome-group-write.yml"
   when: install_oracle

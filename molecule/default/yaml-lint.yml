@@ -12,7 +12,13 @@ rules:
   brackets:
     max-spaces-inside: 1
     level: error
-  line-length: disable
-  # NOTE(retr0h): Templates no longer fail this lint rule.
-  #               Uncomment if running old Molecule templates.
-  # truthy: disable
+  # Better to warn if longer than 160, as Ansible Galaxy will penalize this
+  # You can mark intentional long lines like this:
+  # This line is waaaaaaaaaay too long  # yamllint disable-line rule:line-length
+  #   line-length: disable
+  line-length:
+    max: 160
+    level: warning
+# NOTE(retr0h): Templates no longer fail this lint rule.
+#               Uncomment if running old Molecule templates.
+# truthy: disable

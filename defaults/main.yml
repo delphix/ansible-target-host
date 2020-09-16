@@ -15,8 +15,10 @@ os_min_supported_version: "{% if ansible_os_family == 'Suse' %}11{% else %}6.3{%
 delphix_user: delphix
 ### Comment for the user
 user_comment: "Delphix Automation"
-### The group to which delphix_user should belong
-delphix_group: delphix
+### The primary group to which delphix_user should belong
+delphix_primary_group: delphix
+### The secondary groups to which delphix_user should belong
+delphix_secondary_groups: []
 ### The home of the delphix_user
 delphix_home: "/home/{{ delphix_user }}"
 ### The directory where the Delphix DDP should mount the VDBs
@@ -27,6 +29,7 @@ delphix_toolkit: /home/delphix/toolkit
 # ex.
 #  delphix_ssh_keys:
 #   - name: DE1
+# yamllint disable-line rule:line-length
 #     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYCptAFSoJwnHVgCX5xC2c5W9unRbFen5PvUasQ8tnlouNRte5hnKe10bgkMFN4LSUbXggXk1C+9eMMKvpKxifFFLVTNCtKGyBsrUpmKLWAoQU5ycpXFfGmgtASJn+VZh5VYbCKTcvVsadR8UA7PyOU6V5gayELKZBczw7gvpaGyM4cF4/1VqK7UzbnEXe0Rt3xozYMC+xyRSk+RZTh+grHYHb1Q/0cSsQmaw1sTlIFl8BAjXNMEmPoCISfSpO4F3yWmJUIEPtkWHWiKOUzgoi20vnvZnLHd54NAE8F+aJn4eNarAn0x2XWUdmgLuAM/7KzF5kn0+k9Pm3iJ1jE14J root@ip-10-0-1-10"
 delphix_ssh_keys: {}
 # Allowed sudo commands for the delphix_user
